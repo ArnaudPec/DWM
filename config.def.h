@@ -1,4 +1,5 @@
 /* See LICENSE file for copyright and license details. */
+#include <X11/XF86keysym.h>
 
 /* appearance */
 static const unsigned int borderpx  = 0;        /* border pixel of windows */
@@ -58,6 +59,14 @@ static const Layout layouts[] = {
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
 static const char *termcmd[]  = { "st", NULL };
+static const char *volup[]= { "pamixer", "-i", "5", "--allow-boost", NULL};
+static const char *voldown[] = { "pamixer", "-d", "5", NULL};
+static const char *volmute[] = { "pamixer", "-t", NULL};
+static const char *backlightup[] = { "xbacklight", "-dec", "5", NULL};
+static const char *backlightdown[] = { "xbacklight", "-inc", "5", NULL};
+static const char *setxkbmapus[] = { "setxkbmap", "us", NULL};
+static const char *setxkbmapfr[] = { "setxkbmap", "fr", NULL};
+static const char *screenlock[] = { "i3lock", NULL};
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -94,6 +103,14 @@ static Key keys[] = {
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
+	{ 0,                            XF86XK_MonBrightnessUp,    spawn,      {.v = backlightup } },
+	{ 0,                            XF86XK_MonBrightnessDown,  spawn,      {.v = backlightdown } },
+	{ 0,                            XF86XK_AudioRaiseVolume,   spawn,      {.v = volup } },
+	{ 0,                            XF86XK_AudioLowerVolume,   spawn,      {.v = voldown } },
+	{ 0,                            XF86XK_AudioMute,          spawn,      {.v = volmute } },
+	{ 0,                            XF86XK_ScreenSaver,        spawn,      {.v = screenlock} },
+	{ MODKEY|ShiftMask,             XK_u,        spawn,      {.v = setxkbmapus} },
+	{ MODKEY|ShiftMask,             XK_f,        spawn,      {.v = setxkbmapfr} },
 };
 
 /* button definitions */
